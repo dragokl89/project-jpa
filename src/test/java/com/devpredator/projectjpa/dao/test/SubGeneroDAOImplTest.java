@@ -5,100 +5,89 @@ package com.devpredator.projectjpa.dao.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
+
+import com.devpredator.projectjpa.dao.SubGeneroDAO;
+import com.devpredator.projectjpa.dao.impl.SubGeneroDAOImpl;
+import com.devpredator.projectjpa.entity.Genero;
+import com.devpredator.projectjpa.entity.SubGenero;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
-import com.devpredator.projectjpa.dao.DisqueraDao;
-import com.devpredator.projectjpa.dao.impl.DisqueraDAOImpl;
-import com.devpredator.projectjpa.entity.Disquera;
-
 /**
- * @author c-ado
- *
+ * @author c-ado Clase de test para probar metodos
  */
-class DisqueraDAOImplTest {
-
-	private DisqueraDao DisqueraDAO = new DisqueraDAOImpl();
+class SubGeneroDAOImplTest {
+	private SubGeneroDAO subgeneroDao = new SubGeneroDAOImpl();
 
 	/**
 	 * Test method for
-	 * {@link com.devpredator.projectjpa.dao.impl.DisqueraDAOImpl#guardar(com.devpredator.projectjpa.entity.Disquera)}.
+	 * {@link com.devpredator.projectjpa.dao.impl.SubGeneroDAOImpl#guardar(com.devpredator.projectjpa.entity.SubGenero)}.
 	 */
 	@Test
 	void testGuardar() {
-
-		Disquera disquera = new Disquera();
-		disquera.setDescripcion("Anubis");
-		disquera.setFechaCreacion(LocalDateTime.now());
-		disquera.setEstatus(true);
-		this.DisqueraDAO.guardar(disquera);
+		SubGenero subgenero = new SubGenero ();
+		subgenero.setDescripcion("Hard Core");
+		subgenero.setFechaCreacion(LocalDateTime.now());
+		subgenero.setEstatus(true);
+		
+		Genero genero = new Genero();
+		genero.setDescripcion("Metal");
+		genero.setFechaCreacion(LocalDateTime.now());
+		genero.setEstatus(true);
+		
+		subgenero.setGenero(genero);
+		
+		this.subgeneroDao.guardar(subgenero);
 	}
 
 	/**
 	 * Test method for
-	 * {@link com.devpredator.projectjpa.dao.impl.DisqueraDAOImpl#actualizar(com.devpredator.projectjpa.entity.Disquera)}.
+	 * {@link com.devpredator.projectjpa.dao.impl.SubGeneroDAOImpl#actualizar(com.devpredator.projectjpa.entity.SubGenero)}.
 	 */
 	@Test
 	void testActualizar() {
-		Disquera disqueraConsultada = this.DisqueraDAO.consultarById(9L);
-		disqueraConsultada.setDescripcion("Disquera Iron Maiden");
-		this.DisqueraDAO.actualizar(disqueraConsultada);
+		SubGenero subgenero = this.subgeneroDao.consultarById(7L);
+		subgenero.setDescripcion("Trash Metal");
+		subgenero.getGenero().setDescripcion("Metal Trash");
+		
+		this.subgeneroDao.actualizar(subgenero);
 	}
 
 	/**
 	 * Test method for
-	 * {@link com.devpredator.projectjpa.dao.impl.DisqueraDAOImpl#eliminar(com.devpredator.projectjpa.entity.Disquera)}.
+	 * {@link com.devpredator.projectjpa.dao.impl.SubGeneroDAOImpl#eliminar(java.lang.Long)}.
 	 */
 	@Test
 	void testEliminar() {
-
-		this.DisqueraDAO.eliminar(9L);
-
+		this.subgeneroDao.eliminar(7L);
 	}
 
 	/**
 	 * Test method for
-	 * {@link com.devpredator.projectjpa.dao.impl.DisqueraDAOImpl#consultar()}.
+	 * {@link com.devpredator.projectjpa.dao.impl.SubGeneroDAOImpl#consultar()}.
 	 */
 	@Test
 	void testConsultar() {
-		List<Disquera> disquerasConsultadas = this.DisqueraDAO.consultar();
-		assertTrue(disquerasConsultadas.size() > 0);
-		disquerasConsultadas.forEach(disquera -> {
-			System.out.println("Disquera : " + disquera.getDescripcion());
-		});
+		List<SubGenero> subgenerosConsultados = this.subgeneroDao.consultar();
+
+		assertTrue(subgenerosConsultados.size() > 0);
+		for (SubGenero subGenero : subgenerosConsultados) {
+			System.out.println("Subgenero : " + subGenero.getDescripcion());
+			System.out.println("Genero : " + subGenero.getGenero().getDescripcion());
+		}
 	}
 
 	/**
 	 * Test method for
-	 * {@link com.devpredator.projectjpa.dao.impl.DisqueraDAOImpl#consultarById(long)}.
+	 * {@link com.devpredator.projectjpa.dao.impl.SubGeneroDAOImpl#consultarById(java.lang.Long)}.
 	 */
 	@Test
 	void testConsultarById() {
-		Disquera disquera = this.DisqueraDAO.consultarById(10L);
-		assertNotNull(disquera);
-
-		System.out.println("Descripcion :" + disquera.getDescripcion());
+		fail("Not yet implemented");
 	}
 
-	@Test
-	void testConsultarByDescripcionJSPQL() {
-		Disquera disquera = this.DisqueraDAO.consultarByDescripcionJPQL("Elekid");
-
-		assertNotNull(disquera);
-
-		System.out.println("Descripcion :" + disquera);
-	}
-	@Test
-	void testConsultarByDescripcionNative() {
-		Disquera disquera = this.DisqueraDAO.consultarByDescripcionNative("Elekid");
-
-		assertNotNull(disquera);
-
-		System.out.println("Descripcion :" + disquera);
-	}
 	/**
 	 * Test method for {@link java.lang.Object#Object()}.
 	 */

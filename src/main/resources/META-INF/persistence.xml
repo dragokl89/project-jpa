@@ -5,11 +5,15 @@
 	<persistence-unit name="persistenceDevPredator">
 		<!-- Define la clase para Hivbernate que implemente JPA -->
 		
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+
 		<!-- Define las clases que seran mappeadas al configurarese la conexion 
 			a la base de datos -->
 
 		<class>com.devpredator.projectjpa.entity.Disquera</class>
+		<class>com.devpredator.projectjpa.entity.Genero</class>
+		<class>com.devpredator.projectjpa.entity.SubGenero</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.cj.jdbc.Driver" />

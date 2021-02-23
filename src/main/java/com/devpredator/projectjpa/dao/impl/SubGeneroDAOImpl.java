@@ -7,31 +7,30 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import com.devpredator.projectjpa.dao.DisqueraDao;
+import com.devpredator.projectjpa.dao.SubGeneroDAO;
 import com.devpredator.projectjpa.entity.Disquera;
+import com.devpredator.projectjpa.entity.SubGenero;
 
 /**
- * @author c-ado Clase que implementa las trassaciones de la tabla diquera
+ * @author c-ado
+ *
  */
-public class DisqueraDAOImpl implements DisqueraDao {
-
+public class SubGeneroDAOImpl implements SubGeneroDAO {
 	private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence
 			.createEntityManagerFactory("persistenceDevPredator");
-
 	@Override
-	public void guardar(Disquera disquera) {
+	public void guardar(SubGenero subgenero) {
 		// TODO Auto-generated method stub
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 
 		try {
-			em.persist(disquera);
+			em.persist(subgenero);
 			et.commit();
 		} catch (Exception e) {
 			if (et != null) {
@@ -42,18 +41,17 @@ public class DisqueraDAOImpl implements DisqueraDao {
 		} finally {
 			em.close();
 		}
-
 	}
 
 	@Override
-	public void actualizar(Disquera disquera) {
+	public void actualizar(SubGenero subgenero) {
 		// TODO Auto-generated method stub
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 
 		try {
-			em.merge(disquera);
+			em.merge(subgenero);
 			et.commit();
 		} catch (Exception e) {
 			if (et != null) {
@@ -70,13 +68,11 @@ public class DisqueraDAOImpl implements DisqueraDao {
 	public void eliminar(Long id) {
 		// TODO Auto-generated method stub
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-		Disquera disqueraConsultada = em.find(Disquera.class, id);
-
 		EntityTransaction et = em.getTransaction();
 		et.begin();
-
+        SubGenero subgenero = em.find(SubGenero.class, id);
 		try {
-			em.remove(disqueraConsultada);
+			em.remove(subgenero);
 			et.commit();
 		} catch (Exception e) {
 			if (et != null) {
@@ -90,45 +86,18 @@ public class DisqueraDAOImpl implements DisqueraDao {
 	}
 
 	@Override
-	public List<Disquera> consultar() {
+	public List<SubGenero> consultar() {
 		// TODO Auto-generated method stub
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-		TypedQuery<Disquera> disqueraQuery = (TypedQuery<Disquera>) em.createQuery("FROM Disquera ORDER BY descripcion");
+		TypedQuery<SubGenero> disqueraQuery = (TypedQuery<SubGenero>) em.createQuery("FROM SubGenero ORDER BY descripcion");
 		return disqueraQuery.getResultList();
 	}
 
 	@Override
-	public Disquera consultarById(long id) {
-		// TODO Auto-generated method stub
+	public SubGenero consultarById(Long id) {
 		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-
-		Disquera disqueraConsultada = em.find(Disquera.class, id);
-
-		if (disqueraConsultada == null) {
-			throw new EntityNotFoundException("La disquera " + id + " no existe");
-		}
-
-		return disqueraConsultada;
-	}
-
-	@Override
-	public Disquera consultarByDescripcionJPQL(String descripcion) {
-		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-		TypedQuery<Disquera> disqueraQuery = (TypedQuery<Disquera>) em
-				.createQuery("FROM Disquera WHERE descripcion = :desc");
-		disqueraQuery.setParameter("desc", descripcion);
-		return disqueraQuery.getSingleResult();
-	}
-
-	@Override
-	public Disquera consultarByDescripcionNative(String descripcion) {
-		EntityManager em = ENTITY_MANAGER_FACTORY.createEntityManager();
-		TypedQuery<Disquera> disqueraQuery = (TypedQuery<Disquera>) em
-				.createNativeQuery("SELECT * FROM Disquera WHERE descripcion = :desc ",Disquera.class);
-		disqueraQuery.setParameter("desc", descripcion);
-		return disqueraQuery.getSingleResult();
 		
-	
+		return  em.find(SubGenero.class, id);
 	}
 
 }
